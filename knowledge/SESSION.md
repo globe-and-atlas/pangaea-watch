@@ -33,6 +33,7 @@
 - 2026-10-02 14:54 — commit: chore: initialize project from template
 
 - 2026-10-02 21:39 — commit: feat: browser preview of the Pangaea watch face for any location | README.md,data/deep_time.json,data/events.json,data/fossil_index.json,data/ne_110m_land.json
+- 2026-10-03 13:08 — commit: feat: Pebble Time 2 watchface, ergonomic redesign, and store assets | data/deep_time.json,directives/build_deep_time_data.md,execution/build_pebble_header.py,execution/create_store_assets.swift,execution/extract_pebble_fonts.py
 ## Handoff — 2026-10-02 22:45
 - **Completed**: browser preview for any location; global fossil index in ancient geography; events/odometer/climate band; 68 tests
 - **Commands**: `python3 execution/build_deep_time_data.py`, `python3 execution/build_fossil_index.py`, `python3 -m pytest tests -q` (exit 0)
