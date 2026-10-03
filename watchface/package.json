@@ -1,14 +1,14 @@
 {
   "name": "pangaea-watch",
   "author": "Daniel Bally",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "pebble-app"
   ],
   "private": true,
   "dependencies": {},
   "pebble": {
-    "displayName": "Pangaea",
+    "displayName": "Pangaea Drift",
     "uuid": "30b0c370-9729-44d6-a2d1-f31b38684e4a",
     "sdkVersion": "3",
     "enableMultiJS": true,

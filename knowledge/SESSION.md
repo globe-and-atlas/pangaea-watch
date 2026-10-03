@@ -28,6 +28,7 @@
 - 2026-10-03 11:10 - Implemented ergonomic watchface redesign: 24px hero digital time + stacked period/age in header; 4px multi-colored Deep-Time "Day Arc" ribbon under map; 18px hero taxon line with adaptive scaling; full test suite (70 tests) passing and pebble build verified at 58.5 KB image / 72.6 KB free heap
 - 2026-10-03 13:10 - Prepared store listing assets (store/description.txt, store/release-notes.txt, store/icon-small.png [80x80], store/icon-large.png [144x144], and 5 curated emery_*.png screenshots [200x228]); created execution/create_store_assets.swift and execution/publish_release.py; verified dry run and test suite (70 passed).
 - 2026-10-03 13:20 - Pushed main and feat/browser-preview to remote GitHub repo (https://github.com/globe-and-atlas/pangaea-watch); published release 1.0.0 to RePebble Appstore (https://apps.repebble.com/490fd055aa9b485c8deced5e); published PBW verified against local build (SHA256: 2b2a8db871fcd5ed791b9b05c5201a510dd1ad3f8e2b8c6f5b6b6ef4af71517e); tagged GitHub release v1.0.0.
+- 2026-10-03 13:30 - Renamed watchface to **Pangaea Drift**; updated package.json, index.html, store/description.txt, store/release-notes.txt; bumped version to 1.0.1; published release 1.0.1 to RePebble Appstore (https://apps.repebble.com/490fd055aa9b485c8deced5e); rebuild verified at 58.5 KB load footprint.
 
 ## Checkpoint Log
 

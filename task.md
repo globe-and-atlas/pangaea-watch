@@ -85,3 +85,10 @@ pane-4-styled preview that applies the same per-plate rotations the watch will.
   3. Telemetry Stack: 18px Hero Taxon line with adaptive scaling, context subline (formation & distance), event ticker / drift odometer, and paleo coordinates.
   4. Bottom Bar: Anchor with Home location label + Climate band.
 - Test: `pebble build` in `watchface/` ✅ (58.5 KB RAM footprint, 72.6 KB free heap); full test suite `pytest -q` ✅ 70 passed in 92s.
+
+### 2026-10-03 13:30 — Published as Pangaea Drift
+- Changed: `watchface/package.json`, `index.html`, `store/description.txt`, `store/release-notes.txt`, `execution/publish_release.py`
+- Renamed project/watchface to **Pangaea Drift** to highlight continental drift kinematics.
+- Pushed to GitHub `globe-and-atlas/pangaea-watch` (main and feat/browser-preview).
+- Published version 1.0.1 to RePebble Appstore (`https://apps.repebble.com/490fd055aa9b485c8deced5e`).
+- Test: `pebble clean && pebble build` ✅ creates `watchface.pbw` (58.5 KB load size, 72.5 KB free heap); `pytest tests/test_pebble_build.py` ✅ 2 passed.

@@ -25,7 +25,7 @@ def main():
 
     command = [
         'pebble', 'publish', '--non-interactive', '--is-published', '--no-gif-all-platforms',
-        '--name', 'Pangaea',
+        '--name', 'Pangaea Drift',
         '--version', package['version'],
         '--description', (store / 'description.txt').read_text().strip(),
         '--release-notes', (store / 'release-notes.txt').read_text().strip(),
