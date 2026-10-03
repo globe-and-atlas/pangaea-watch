@@ -33,6 +33,26 @@
           <p id="loc-status" class="loc-status" role="status"></p>
         </fieldset>
 
+        <fieldset class="location">
+          <legend>Display & Font Colors</legend>
+          <div class="loc-row">
+            <label for="time-format" style="align-self:center;font-size:13px;color:var(--muted)">Clock Format</label>
+            <select id="time-format" aria-label="Clock format">
+              <option value="24" selected>24-hour (17:00)</option>
+              <option value="12">12-hour (5:00)</option>
+            </select>
+          </div>
+          <div class="color-grid">
+            <label title="Digital Time Color"><span>Time</span><input type="color" id="col-time" value="#FFAA00"></label>
+            <label title="Location Header Color"><span>Header</span><input type="color" id="col-header" value="#FFFFFF"></label>
+            <label title="Fossil Taxon Color"><span>Taxon</span><input type="color" id="col-taxon" value="#FFAA00"></label>
+            <label title="Paleo Coordinates Color"><span>Coords</span><input type="color" id="col-coords" value="#FFFFFF"></label>
+            <label title="Period & Age Color"><span>Age</span><input type="color" id="col-age" value="#55FFFF"></label>
+            <label title="Ticker / Drift Color"><span>Ticker</span><input type="color" id="col-ticker" value="#AAFFAA"></label>
+            <label title="Footer Climate Color"><span>Footer</span><input type="color" id="col-footer" value="#AAAAAA"></label>
+          </div>
+        </fieldset>
+
         <label class="time-row">
           <span>Clock time</span>
           <output id="clock-out">00:00:00</output>

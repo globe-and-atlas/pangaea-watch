@@ -2,11 +2,11 @@
 
 ## Current Session
 
-**Goal:** Browser proof of the Pangaea watch face, any location, fossils in ancient geography, gap-filling layers
-**Agent:** Claude Code CLI
-**Handoff-from:** none
-**Handoff-type:** new-project
-**Status:** Completed — verifier round 3 APPROVE (browser slice; Pebble build not started)
+**Goal:** Build Pebble Time 2 (emery) C watchface and PKJS companion, packing deep-time coastlines into ROM
+**Agent:** Antigravity AI
+**Handoff-from:** Claude Code CLI
+**Handoff-type:** pickup
+**Status:** Completed — Pebble Time 2 (emery) C watchface and PKJS companion built, tested, and verified under load limits (build/watchface.pbw created, 73.8 KB free heap)
 
 ---
 ## Checkpoints
@@ -23,11 +23,16 @@
 - 2026-10-02 20:30 - Verifier round 2 REJECT: impact event stuck through fast-forward; circular tests
 - 2026-10-02 21:00 - Fixed; independent GPlates recomputation tests; 68 pass
 - 2026-10-02 22:40 - Verifier round 3 APPROVE; stale-location guard, no 4xx retry, parity covers SEA/nearestKm
+- 2026-10-02 22:20 - Pebble Time 2 (Emery) C watchface & PKJS built. execution/build_pebble_header.py generates ROM tables; load size kept at 57.2 KB (under 65.5 KB uint16 limit); tests/test_pebble_build.py ✅ pass
+- 2026-10-02 22:30 - Added 12/24h hour mode options and full font color customization (time, header, taxon, coords, age, ticker, footer) across both Pebble C firmware (with persistent storage) and browser preview
+- 2026-10-03 11:10 - Implemented ergonomic watchface redesign: 24px hero digital time + stacked period/age in header; 4px multi-colored Deep-Time "Day Arc" ribbon under map; 18px hero taxon line with adaptive scaling; full test suite (70 tests) passing and pebble build verified at 58.5 KB image / 72.6 KB free heap
+- 2026-10-03 13:10 - Prepared store listing assets (store/description.txt, store/release-notes.txt, store/icon-small.png [80x80], store/icon-large.png [144x144], and 5 curated emery_*.png screenshots [200x228]); created execution/create_store_assets.swift and execution/publish_release.py; verified dry run and test suite (70 passed). Ready for remote git push and RePebble publication.
 
 ## Checkpoint Log
 
 - 2026-10-02 14:54 — commit: chore: initialize project from template
 
+- 2026-10-02 21:39 — commit: feat: browser preview of the Pangaea watch face for any location | README.md,data/deep_time.json,data/events.json,data/fossil_index.json,data/ne_110m_land.json
 ## Handoff — 2026-10-02 22:45
 - **Completed**: browser preview for any location; global fossil index in ancient geography; events/odometer/climate band; 68 tests
 - **Commands**: `python3 execution/build_deep_time_data.py`, `python3 execution/build_fossil_index.py`, `python3 -m pytest tests -q` (exit 0)

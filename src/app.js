@@ -39,6 +39,18 @@ let playing = false;
 let seconds = 0;
 let pinnedMode = false;
 
+let timeFormat = 24;
+const customColors = {
+  time: C.chrome,
+  header: C.white,
+  taxon: C.chrome,
+  coords: C.white,
+  age: C.electric,
+  ticker: C.mint,
+  footer: "#AAAAAA",
+};
+const CONFIG_KEY = "pangaea:preview_config";
+
 // ── Rotation math ───────────────────────────────────────────────────────────
 
 const rad = (d) => (d * Math.PI) / 180;
@@ -105,6 +117,15 @@ function fmtClock(s) {
   return [h, m, sec].map((n) => String(n).padStart(2, "0")).join(":");
 }
 
+function fmtClockBar(s, mode = 24) {
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+  if (mode === 12) {
+    const h12 = h % 12 || 12;
+    return `${h12}:${String(m).padStart(2, "0")}`;
+  }
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
 function fmtAge(age) {
   if (age >= 10) return `${age.toFixed(1)} MA`;
   if (age >= 1) return `${age.toFixed(2)} MA`;
@@ -144,9 +165,9 @@ function line(x0, y0, x1, y1, color) {
 
 let truncated = []; // lines that did not fit this frame (tests assert none)
 
-function text(str, x, y, color, bold = false, align = "left", maxW = 192) {
+function text(str, x, y, color, bold = false, align = "left", maxW = 192, fontSize = 12) {
   ctx.fillStyle = color;
-  ctx.font = `${bold ? "bold " : ""}12px "Helvetica Neue", Arial, sans-serif`;
+  ctx.font = `${bold ? "bold " : ""}${fontSize}px "Helvetica Neue", Arial, sans-serif`;
   ctx.textAlign = align;
   ctx.textBaseline = "top";
   let s = str;
@@ -157,18 +178,18 @@ function text(str, x, y, color, bold = false, align = "left", maxW = 192) {
 
 function fitLabel(str, maxW) {
   // Deliberate shortening for user-supplied place names (not counted as truncation)
-  ctx.font = 'bold 12px "Helvetica Neue", Arial, sans-serif';
+  ctx.font = 'bold 11px "Helvetica Neue", Arial, sans-serif';
   let s = str;
   while (ctx.measureText(s).width > maxW && s.length > 1) s = s.slice(0, -1);
   return s.trimEnd();
 }
 
-function bar(y, label, right, rightColor) {
+function bar(y, label, right, rightColor, labelColor = C.white) {
   ctx.fillStyle = C.black;
   ctx.fillRect(0, y, W, 20);
   line(0, y === 0 ? 19 : y, W - 1, y === 0 ? 19 : y, C.darkGray);
-  text(label, 4, y + 3, C.white, true, "left", right ? 140 : 192);
-  if (right) text(right, W - 4, y + 3, rightColor, true, "right", 50);
+  text(label, 4, y + 3, labelColor, true, "left", right ? 140 : 192);
+  if (right) text(right, W - 4, y + 3, rightColor, true, "right", 60);
 }
 
 
@@ -246,7 +267,7 @@ function taxonLine(here, s) {
   const t = here.taxa[Math.floor(s / 10) % here.taxa.length]; // rotate every 10 s
   const genus = t.genus.toUpperCase();
   const kind = t.trace ? " (TRACKS)" : t.group === "dinosaur" ? "" : ` · ${SCREEN_GROUP[t.group] ?? ""}`;
-  ctx.font = 'bold 12px "Helvetica Neue", Arial, sans-serif';
+  ctx.font = 'bold 15px "Helvetica Neue", Arial, sans-serif';
   return ctx.measureText(genus + kind).width <= MAP.w ? genus + kind : genus; // long genus wins
 }
 
@@ -270,7 +291,28 @@ function render(s) {
   ctx.fillStyle = C.black;
   ctx.fillRect(0, 0, W, H);
 
-  // Map frame, grid, border
+  // 1. Header Bar (y: 0..27, divider line at y: 28)
+  // Left: Hero Digital Time (22px Bold)
+  const timeStr = fmtClockBar(s, timeFormat);
+  ctx.fillStyle = customColors.time;
+  ctx.font = 'bold 22px "Helvetica Neue", Arial, sans-serif';
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText(timeStr, 4, 1);
+
+  // Right: Stacked Period and Age
+  ctx.fillStyle = customColors.header;
+  ctx.font = 'bold 11px "Helvetica Neue", Arial, sans-serif';
+  ctx.textAlign = "right";
+  ctx.fillText(frame.period.toUpperCase(), W - 4, 2);
+
+  ctx.fillStyle = customColors.age;
+  ctx.font = 'bold 11px "Helvetica Neue", Arial, sans-serif';
+  ctx.fillText(fmtAge(age), W - 4, 14);
+
+  line(0, 28, W - 1, 28, C.darkGray);
+
+  // 2. Map frame, grid, border (y: 32..127)
   ctx.fillStyle = C.oxford;
   ctx.fillRect(MAP.x, MAP.y, MAP.w, MAP.h);
   const eqY = MAP.y + MAP.h / 2, pmX = MAP.x + MAP.w / 2;
@@ -280,8 +322,7 @@ function render(s) {
   ctx.lineWidth = 1;
   ctx.strokeRect(MAP.x + 0.5, MAP.y + 0.5, MAP.w - 1, MAP.h - 1);
 
-  // Coastlines: rotate each vertex by its plate's interpolated rotation. A vertex is hidden
-  // until its crust exists in the model (age <= birth) and its plate has both bracket rotations.
+  // Coastlines: rotate each vertex by its plate's interpolated rotation
   const cache = {};
   const qFor = (pid) => (cache[pid] ??= qa[pid] && qb[pid] ? slerp(qa[pid], qb[pid], t) : null);
   let prev = null, prevLon = 0;
@@ -296,7 +337,7 @@ function render(s) {
     prevLon = plon;
   }
 
-  // Home crosshair -- absent until home's ground exists in the model
+  // Home crosshair
   const hp = homeAt(i, t, age);
   let cross = null;
   if (hp) {
@@ -305,43 +346,84 @@ function render(s) {
     line(cross[0], cross[1] - 3, cross[0], cross[1] + 3, C.chrome);
   }
 
-  // Text block (ground_track.c footer positions, plus one row in pane 4's empty band)
-  const yd = MAP.y + MAP.h + 8;
+  // 3. Deep-Time "Day Arc" Ribbon (y: 130..133)
+  ctx.fillStyle = "#FF8800"; // Triassic
+  ctx.fillRect(4, 130, 53, 4);
+  ctx.fillStyle = "#00AAAA"; // Jurassic
+  ctx.fillRect(57, 130, 57, 4);
+  ctx.fillStyle = C.mint; // Cretaceous
+  ctx.fillRect(114, 130, 81, 4);
+  ctx.fillStyle = "#FF0000"; // Asteroid Impact at 66 Ma
+  ctx.fillRect(195, 130, 1, 4);
+
+  // Day Arc Cursor Needle (y: 129..134)
+  const curX = Math.min(195, 4 + Math.floor((minute * 191) / 1440));
+  ctx.fillStyle = C.white;
+  ctx.fillRect(curX - 1, 129, 2, 6);
+
+  // 4. Telemetry Text Stack (y: 136..206)
   const here = home?.here[k] ?? null;
   const ev = activeEvent(s);
-  let line1, line2, foot;
+
+  // Line 1: Hero Taxon / Status (Large Bold with adaptive scaling)
+  let line1;
   if (!home) {
     line1 = homeStatus;
-    line2 = "";
-    foot = "PLATE MODEL • MERDITH 2021";
   } else if (!hp) {
     line1 = "GROUND NOT FORMED YET";
-    line2 = `APPEARS AT ${fmtClock(minuteForAge(home.birthAge) * 60).slice(0, 5)}`;
-    foot = "YOUNGER CRUST";
   } else {
     line1 = fastForward ? "AFTER THE DINOSAURS" : here ? taxonLine(here, s) : "NOTHING FOUND NEARBY";
-    line2 = `PALEO: ${fmtCoord(hp[0])}, ${fmtCoord(hp[1])} (YOU)`;
-    const band = climateBand(hp[0]);
-    foot = fastForward ? `${band} • FAST-FORWARD`
-      : here?.nearestKm != null ? `${band} • ${here.marine ? "SEA" : "FIND"} ${here.nearestKm} KM`
-      : `${band} • NO FINDS`;
   }
-  text(line1, MAP.x, yd, C.chrome, true);
-  if (line2) text(line2, MAP.x, yd + 16, C.white);
-  text(`${frame.period.toUpperCase()} • ${fmtAge(age)}`, MAP.x, yd + 31, C.electric);
+  let fontSz = 14;
+  ctx.font = `bold ${fontSz}px "Helvetica Neue", Arial, sans-serif`;
+  while (ctx.measureText(line1).width > MAP.w && fontSz > 11) {
+    fontSz--;
+    ctx.font = `bold ${fontSz}px "Helvetica Neue", Arial, sans-serif`;
+  }
+  text(line1, MAP.x, 136, customColors.taxon, true, "left", MAP.w, fontSz);
 
+  // Line 2: Context Subline (11px regular)
+  let line2;
+  if (!home) {
+    line2 = "MERDITH 2021 PLATE MODEL";
+  } else if (!hp) {
+    line2 = `APPEARS AT ${fmtClock(minuteForAge(home.birthAge) * 60).slice(0, 5)}`;
+  } else if (fastForward) {
+    line2 = "CENOZOIC FAST-FORWARD";
+  } else if (here?.nearestKm != null) {
+    line2 = `${here.marine ? "MARINE" : "TERRESTRIAL"} FIND • ${here.nearestKm} KM`;
+  } else {
+    line2 = "NO FOSSILS WITHIN 1000 KM";
+  }
+  text(line2, MAP.x, 155, C.white, false, "left", MAP.w, 11);
+
+  // Line 3: Event Ticker or Drift Odometer (11px regular)
   let line4 = "";
   if (ev) {
     line4 = ev.label;
-    text(line4, MAP.x, yd + 46, C.white);
+    text(line4, MAP.x, 171, C.white, false, "left", MAP.w, 11);
   } else if (home && hp) {
     const drift = drifted(i, t);
     line4 = `DRIFT ${Math.round(drift.km).toLocaleString("en-US")} KM • ${drift.cmyr.toFixed(1)} CM/YR`;
-    text(line4, MAP.x, yd + 46, C.mint);
+    text(line4, MAP.x, 171, customColors.ticker, false, "left", MAP.w, 11);
   }
 
-  bar(0, fitLabel((home?.label ?? "PANGAEA").toUpperCase(), 140), fmtClock(s).slice(0, 5), C.chrome);
-  bar(H - 20, foot);
+  // Line 4: Paleo Coordinates (11px regular)
+  let coordsLine = "";
+  if (hp) {
+    coordsLine = `PALEO: ${fmtCoord(hp[0])}, ${fmtCoord(hp[1])} (YOU)`;
+  } else {
+    coordsLine = "GLOBAL RECONSTRUCTION";
+  }
+  text(coordsLine, MAP.x, 187, customColors.coords, false, "left", MAP.w, 11);
+
+  // 5. Bottom Bar (y: 207..227)
+  line(0, H - 21, W - 1, H - 21, C.darkGray);
+  const homeLbl = fitLabel((home?.label ?? "PANGAEA").toUpperCase(), 120);
+  const band = hp ? climateBand(hp[0]) : "GLOBAL";
+  const foot = `${homeLbl} • ${band}`;
+  text(homeLbl, MAP.x, H - 18, customColors.footer, true, "left", 120, 11);
+  text(band, W - 4, H - 18, customColors.footer, false, "right", 70, 11);
 
   updateReadout(s, age, frame, hp, here, ev);
   if (pinnedMode) publishState({ age, hp, cross, line1, line4, foot, here });
@@ -377,6 +459,17 @@ function publishState(st) {
     here: st.here ? { tier: st.here.tier, genera: st.here.taxa.map((x) => x.genus),
       nearestKm: st.here.nearestKm, marine: st.here.marine } : null,
   });
+  try {
+    const hiCanvas = document.createElement("canvas");
+    hiCanvas.width = 600;
+    hiCanvas.height = 684;
+    const hiCtx = hiCanvas.getContext("2d");
+    hiCtx.imageSmoothingEnabled = false;
+    hiCtx.drawImage(canvas, 0, 0, 600, 684);
+    canvas.dataset.png = hiCanvas.toDataURL("image/png");
+  } catch {
+    /* ignore */
+  }
 }
 
 function updateReadout(s, age, frame, hp, here, ev) {
@@ -424,6 +517,54 @@ async function setLocation(lat, lon, label) {
     locStatus.textContent = `Could not resolve ${label}: ${err.message}`;
   }
   if (pinnedMode) render(seconds);
+}
+
+function loadCustomization() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CONFIG_KEY));
+    if (saved) {
+      if (saved.timeFormat) timeFormat = Number(saved.timeFormat);
+      if (saved.colors) Object.assign(customColors, saved.colors);
+    }
+  } catch { /* ignore */ }
+}
+
+function saveCustomization() {
+  try {
+    localStorage.setItem(CONFIG_KEY, JSON.stringify({ timeFormat, colors: customColors }));
+  } catch { /* ignore */ }
+}
+
+function initCustomizationUI() {
+  loadCustomization();
+  const tf = document.getElementById("time-format");
+  if (tf) {
+    tf.value = String(timeFormat);
+    tf.addEventListener("change", () => {
+      timeFormat = Number(tf.value);
+      saveCustomization();
+      render(seconds);
+    });
+  }
+  const colorInputs = {
+    time: "col-time",
+    header: "col-header",
+    taxon: "col-taxon",
+    coords: "col-coords",
+    age: "col-age",
+    ticker: "col-ticker",
+    footer: "col-footer",
+  };
+  for (const [key, id] of Object.entries(colorInputs)) {
+    const input = document.getElementById(id);
+    if (!input) continue;
+    input.value = customColors[key];
+    input.addEventListener("input", () => {
+      customColors[key] = input.value;
+      saveCustomization();
+      render(seconds);
+    });
+  }
 }
 
 function initLocationUI() {
@@ -516,6 +657,7 @@ async function main() {
     `Coastlines: ${src.coastlines}. Plates: ${src.plates}. Fossils: ${fossilIndex.meta.source}. ` +
     `Fossil distances are measured between ancient positions at each moment.`;
   initLocationUI();
+  initCustomizationUI();
   const loc = initialLocation();
   const pinned = new URLSearchParams(location.search).get("t"); // ?t=HH:MM:SS pins the clock
   if (pinned) {

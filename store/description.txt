@@ -1,0 +1,14 @@
+A deep-time cartographic watchface for Pebble Time 2 (Emery). Midnight is 252 million years ago at the Triassic dawn; 23:59 marks the Cretaceous-Paleogene asteroid impact (66 Ma); and the final 60 seconds fast-forwards through 66 million years of continental drift to present-day Earth. The reticle carries your current ground back through deep time on its tectonic plate.
+
+FEATURES
+• Hero Digital Time: High-contrast 24px bold clock with stacked Geological Period and Age in Ma.
+• Deep-Time "Day Arc": 4px multi-colored ribbon tracking Earth's Mesozoic eras (Triassic Amber, Jurassic Cyan, Cretaceous Mint, Chicxulub extinction tick, and white cursor needle).
+• Continental Drift Map: Global coastlines reconstructed back through time using plate kinematics (Merdith et al., 2021).
+• Ancestral Reticle: Amber crosshair tracking your ancestral home coordinates as continents assemble and rift.
+• Hero Taxon & Telemetry: Nearby fossil occurrences from the Paleobiology Database, distance odometer, and paleo coordinates.
+• Bottom Bar: Home location anchor and paleo-climate band.
+• Customization: 12-hour / 24-hour time formatting and customizable color palette.
+
+Phone coordinates are resolved on-device via PebbleKit JS and cached to persistent storage for offline wear.
+
+Source: https://github.com/globe-and-atlas/pangaea-watch

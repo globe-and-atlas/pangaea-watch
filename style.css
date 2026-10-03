@@ -105,3 +105,25 @@ button.active { border-color: var(--accent); color: var(--accent); }
   padding: 6px 8px;
 }
 .loc-status { margin: 0; min-height: 1.5em; color: var(--muted); font-size: 13px; }
+.color-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 6px;
+}
+.color-grid label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.color-grid input[type="color"] {
+  border: 1px solid var(--line);
+  width: 28px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

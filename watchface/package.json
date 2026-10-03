@@ -1,0 +1,51 @@
+{
+  "name": "pangaea-watch",
+  "author": "Daniel Bally",
+  "version": "1.0.0",
+  "keywords": [
+    "pebble-app"
+  ],
+  "private": true,
+  "dependencies": {},
+  "pebble": {
+    "displayName": "Pangaea",
+    "uuid": "30b0c370-9729-44d6-a2d1-f31b38684e4a",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "emery"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "CMD",
+      "STATUS_MSG",
+      "HOME_LAT",
+      "HOME_LON",
+      "HOME_LABEL",
+      "HOME_PLATE_ID",
+      "HOME_BIRTH_AGE",
+      "FOSSIL_GENUS",
+      "FOSSIL_GROUP",
+      "FOSSIL_DIST_KM",
+      "FOSSIL_MARINE",
+      "FOSSIL_PERIOD",
+      "HOUR_MODE",
+      "COLOR_TIME",
+      "COLOR_TAXON",
+      "COLOR_COORDS",
+      "COLOR_AGE",
+      "COLOR_TICKER",
+      "COLOR_HEADER",
+      "COLOR_FOOTER"
+    ],
+    "resources": {
+      "media": []
+    },
+    "capabilities": [
+      "location",
+      "configurable"
+    ]
+  }
+}

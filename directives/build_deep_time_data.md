@@ -125,3 +125,31 @@ Preview (`index.html`, `src/*.js`), checked in headless Chrome:
 - Location lookup: per-request timeout + 3 retries; cache keyed by exact keyframe ages
 - "SEA" footer only when the nearest find is marine and ≤ 400 km
 - Contract wording: the not-yet-formed line reads "GROUND NOT FORMED YET" (shortened to fit 192 px)
+
+## Validation Contract — Revision 3 (glanceable layout, 2026-10-02)
+
+Design critique accepted: time was an afterthought; six readouts and five colours failed the glance
+test. Glance view = time, map, day strip, hero taxon, one subline, footer. Detail readouts move to a
+tap view (Pebble `accel_tap_service`; preview: Tap button / `t` key / `&view=detail`).
+
+Fonts: the preview renders Pebble's own system font bitmaps, extracted from the local SDK's emulator
+firmware by `execution/extract_pebble_fonts.py` into `.tmp/pebble_fonts.json` (not committed —
+firmware fonts, redistribution unclear). Without it the preview falls back to Helvetica and says so.
+
+- [ ] `execution/extract_pebble_fonts.py` exits 0 and writes `.tmp/pebble_fonts.json`
+- [ ] Each extracted font matches its fingerprint (max height + glyph count)
+- [ ] Preview reports `fonts: "pebble"` when the atlas is present
+- [ ] Glance view: the clock time is drawn in a LECO numeral font ≥ 32 px tall, top-left
+- [ ] Glance view: the time's glyph height is the largest of any text on screen
+- [ ] Glance view: at most 4 distinct text colours (strip and map excluded)
+- [ ] Glance view shows no paleo coordinates and no drift odometer
+- [ ] Day strip sits directly below the map, spans the map width, ≥ 3 px tall
+- [ ] Day strip boundaries fall at 06:31 (201.4 Ma) and 13:48 (145 Ma), ±1 px
+- [ ] Day strip marker x matches the clock position along the day, ±1 px
+- [ ] Day strip has a red extinction pip at its right end
+- [ ] Hero taxon is drawn in Gothic 24 bold, stepping down to 18 bold then 14 bold only when it does not fit
+- [ ] An active event replaces the subline
+- [ ] Detail view shows paleo coordinates, drift odometer, formation, nearest-find distance
+- [ ] Detail view returns to glance after 6 s
+- [ ] No text truncated in either view across the 8 test scenes, measured with Pebble fonts
+- [ ] All Revision 2 preview assertions still pass
