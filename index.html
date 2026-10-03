@@ -3,14 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>pangaea-watch</title>
+  <title>Pangaea Watch</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="shell">
-    <p class="eyebrow">hybrid-geospatial profile</p>
-    <h1>pangaea-watch</h1>
-    <p>Static UI shell plus deterministic analysis support.</p>
+    <header class="intro">
+      <p class="eyebrow">Emery preview · 200×228 native</p>
+      <h1>Pangaea Watch</h1>
+      <p class="lede">Midnight is 252 million years ago. 23:59 is the extinction. The last minute runs 66 million years to today.
+        The crosshair is your ground, wherever you are, carried back on its tectonic plate.</p>
+    </header>
+
+    <section class="stage">
+      <div class="watch"><canvas id="screen" width="200" height="228" aria-label="Watch face preview"></canvas></div>
+
+      <div class="controls">
+        <fieldset class="location">
+          <legend>Location</legend>
+          <div class="loc-row">
+            <select id="loc-preset" aria-label="Preset location"></select>
+            <button id="loc-gps" type="button">Use my location</button>
+          </div>
+          <form id="loc-form" class="loc-row">
+            <input id="loc-lat" type="number" step="any" min="-90" max="90" placeholder="Latitude" aria-label="Latitude" required>
+            <input id="loc-lon" type="number" step="any" min="-180" max="180" placeholder="Longitude" aria-label="Longitude" required>
+            <button type="submit">Go</button>
+          </form>
+          <p id="loc-status" class="loc-status" role="status"></p>
+        </fieldset>
+
+        <label class="time-row">
+          <span>Clock time</span>
+          <output id="clock-out">00:00:00</output>
+        </label>
+        <input id="scrub" type="range" min="0" max="86399" step="1" value="0" aria-label="Time of day">
+
+        <div class="buttons">
+          <button id="now" type="button">Live</button>
+          <button id="play" type="button">Play</button>
+          <select id="speed" aria-label="Playback speed">
+            <option value="60">1 min/s</option>
+            <option value="600" selected>10 min/s</option>
+            <option value="3600">1 hr/s</option>
+            <option value="1">Real time</option>
+          </select>
+        </div>
+
+        <div class="jumps" aria-label="Jump to">
+          <button type="button" data-t="00:00:00">Midnight</button>
+          <button type="button" data-t="06:35:00">Jurassic</button>
+          <button type="button" data-t="12:00:00">Noon</button>
+          <button type="button" data-t="13:48:00">Cretaceous</button>
+          <button type="button" data-t="17:00:00">Glen Rose</button>
+          <button type="button" data-t="23:59:00">23:59</button>
+          <button type="button" data-t="23:59:30">Fast-forward</button>
+        </div>
+
+        <dl class="readout">
+          <dt>Age</dt><dd id="r-age">–</dd>
+          <dt>Period</dt><dd id="r-period">–</dd>
+          <dt>Paleo position</dt><dd id="r-pos">–</dd>
+          <dt>Search tier</dt><dd id="r-tier">–</dd>
+          <dt>Event</dt><dd id="r-event">–</dd>
+        </dl>
+        <ul id="r-taxa" class="taxa"></ul>
+      </div>
+    </section>
+
+    <footer class="sources" id="sources"></footer>
   </main>
   <script type="module" src="src/app.js"></script>
 </body>

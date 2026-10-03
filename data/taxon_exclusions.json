@@ -1,0 +1,7 @@
+{
+  "_about": "Genus-level PBDB records excluded from what's-here, each with a reason. Keyed by accepted genus; optional max_ma/min_ma bound which records are excluded.",
+  "Plesiosaurus": {
+    "reason": "Early Jurassic European genus; Cretaceous North American 'Plesiosaurus sp.' records are 19th-century catch-all assignments",
+    "younger_than_ma": 174.7
+  }
+}

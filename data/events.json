@@ -1,0 +1,26 @@
+{
+  "_about": "Global deep-time events for the ticker. label <= 26 chars (fits 192 px). Ages are consensus values; 'source' names the reference to check against. Written 2026-10-02 from general knowledge -- spot-check before publishing.",
+  "events": [
+    {"age_ma": 251.9, "label": "AFTER THE GREAT DYING", "note": "End-Permian extinction: ~80% of marine species lost", "source": "Burgess et al. 2014, PNAS (251.94 Ma)"},
+    {"age_ma": 233.0, "label": "CARNIAN PLUVIAL EPISODE", "note": "Wet pulse in a dry world; dinosaurs diversify after it", "source": "Dal Corso et al. 2020, Science Advances"},
+    {"age_ma": 231.0, "label": "FIRST DINOSAURS", "note": "Eoraptor, Herrerasaurus (Ischigualasto, ~231 Ma)", "source": "Martinez et al. 2011, Science"},
+    {"age_ma": 225.0, "label": "FIRST MAMMAL RELATIVES", "note": "Early mammaliaforms appear", "source": "Kielan-Jaworowska et al. 2004"},
+    {"age_ma": 201.5, "label": "END-TRIASSIC EXTINCTION", "note": "CAMP volcanism as Pangaea rifts; dinosaurs take over", "source": "Blackburn et al. 2013, Science"},
+    {"age_ma": 190.0, "label": "ATLANTIC STARTS OPENING", "note": "Seafloor spreading begins in the central Atlantic", "source": "Labails et al. 2010, EPSL (~190 Ma)"},
+    {"age_ma": 183.0, "label": "OCEANS LOSE OXYGEN", "note": "Toarcian Oceanic Anoxic Event", "source": "Jenkyns 2010, G-cubed"},
+    {"age_ma": 150.0, "label": "ARCHAEOPTERYX", "note": "Feathered dinosaur at Solnhofen, ~150 Ma", "source": "ICS Kimmeridgian/Tithonian; Solnhofen dating"},
+    {"age_ma": 130.0, "label": "FIRST FLOWERS", "note": "Earliest widely accepted angiosperm pollen", "source": "Hughes 1994; Friis et al. 2011"},
+    {"age_ma": 125.0, "label": "FEATHERED DINOS IN CHINA", "note": "Jehol Biota, Yixian Formation", "source": "Zhou et al. 2003, Nature"},
+    {"age_ma": 120.0, "label": "ONTONG JAVA ERUPTS", "note": "Largest volcanic plateau; OAE1a", "source": "Jenkyns 2010, G-cubed"},
+    {"age_ma": 94.0, "label": "HOTHOUSE PEAK", "note": "Cenomanian-Turonian event (OAE2); warm poles", "source": "Jenkyns 2010; Huber et al. 2018"},
+    {"age_ma": 68.0, "label": "TYRANNOSAURUS REX", "note": "Hell Creek and Lance formations, 68-66 Ma", "source": "Hell Creek dating, Sprain et al. 2015"},
+    {"age_ma": 66.3, "label": "DECCAN TRAPS ERUPT", "note": "Flood basalts in India begin before the impact", "source": "Schoene et al. 2019, Science"},
+    {"age_ma": 66.0, "label": "ASTEROID IMPACT", "note": "Chicxulub; non-avian dinosaurs end", "source": "Schulte et al. 2010, Science; Renne et al. 2013"},
+    {"age_ma": 56.0, "label": "PALEOCENE HEATWAVE", "note": "PETM: +5-8 °C in a few thousand years", "source": "McInerney & Wing 2011"},
+    {"age_ma": 50.0, "label": "INDIA HITS ASIA", "note": "Himalaya begin to rise", "source": "Najman et al. 2010, JGR"},
+    {"age_ma": 33.9, "label": "ANTARCTICA FREEZES", "note": "Eocene-Oligocene ice sheet", "source": "Zachos et al. 2001, Science"},
+    {"age_ma": 7.0, "label": "FIRST HOMININS", "note": "Sahelanthropus, ~7 Ma", "source": "Brunet et al. 2002, Nature"},
+    {"age_ma": 2.58, "label": "ICE AGES BEGIN", "note": "Quaternary glaciations", "source": "ICS Chart 2023"},
+    {"age_ma": 0.3, "label": "HOMO SAPIENS", "note": "Jebel Irhoud, ~315 ka", "source": "Hublin et al. 2017, Nature"}
+  ]
+}
