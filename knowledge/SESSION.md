@@ -37,6 +37,7 @@
 - 2026-10-02 21:39 — commit: feat: browser preview of the Pangaea watch face for any location | README.md,data/deep_time.json,data/events.json,data/fossil_index.json,data/ne_110m_land.json
 - 2026-10-03 13:08 — commit: feat: Pebble Time 2 watchface, ergonomic redesign, and store assets | data/deep_time.json,directives/build_deep_time_data.md,execution/build_pebble_header.py,execution/create_store_assets.swift,execution/extract_pebble_fonts.py
 - 2026-10-03 13:08 — commit: chore: update session log checkpoint | knowledge/SESSION.md
+- 2026-10-03 13:32 — commit: feat: rename watchface to Pangaea Drift and publish release 1.0.1 | execution/publish_release.py,index.html,knowledge/SESSION.md,store/description.txt,store/release-notes.txt
 ## Handoff — 2026-10-03 13:22
 - **Completed**: Pebble Time 2 (Emery) watchface built, tested, pushed to GitHub (globe-and-atlas/pangaea-watch), and published live on RePebble Appstore with 5 emery screenshots, icons, and release 1.0.0.
 - **Commands**:
